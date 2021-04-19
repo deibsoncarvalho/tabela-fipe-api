@@ -1,0 +1,8 @@
+__title__ = 'fipeapi'
+__description__ = 'Python Extra Oficial API for REST Request to consult Vehicles Prices.'
+__url__ = ''
+__version__ = '0.1.0'
+__author__ = 'Deibson Carvalho'
+__author_email__ = 'eu@deibsoncarvalho.com'
+__license__ = 'Apache 2.0'
+__copyright__ = 'Copyright 2020 Deibson Carvalho'
