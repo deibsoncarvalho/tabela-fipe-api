@@ -26,8 +26,13 @@ from .__version__ import (
     __copyright__
 )
 from .api import FipeAPI, CARRO, MOTO, CAMINHAO, GASOLINA, DIESEL, ALCOOL
-from .exceptions import ValueNotFoundException
+from .exceptions import ValueNotFoundException, IncorrectValueException, IncorrectSettingsException
 from typing import List, Dict, Optional
+
+
+__all__ = ['FipeAPI', 'CARRO', 'MOTO', 'CAMINHAO', 'GASOLINA', 'DIESEL', 'ALCOOL', 'ValueNotFoundException',
+           'IncorrectSettingsException', 'IncorrectValueException', 'pega_marcas', 'pega_modelos', 'pega_anos_modelo',
+           'consulta_preco_veiculo']
 
 
 def pega_marcas(tipo_veiculo: Optional[int] = CARRO,
@@ -41,7 +46,7 @@ def pega_marcas(tipo_veiculo: Optional[int] = CARRO,
     :return: retorna a lista com as marcas
     :rtype: list
     """
-    fipe_api = FipeAPI(is_verbose=True)
+    fipe_api = FipeAPI()
     fipe_api.seleciona_tipo_veiculo(tipo_veiculo=tipo_veiculo)
     fipe_api.seleciona_referencia(mes=mes_referencia, ano=ano_referencia)
     return fipe_api.pega_marcas()
@@ -59,7 +64,7 @@ def pega_modelos(marca: str,
     :return: retorna a lista com as marcas
     :rtype: list
     """
-    fipe_api = FipeAPI(is_verbose=True)
+    fipe_api = FipeAPI()
     fipe_api.seleciona_tipo_veiculo(tipo_veiculo=tipo_veiculo)
     fipe_api.seleciona_referencia(mes=mes_referencia, ano=ano_referencia)
     fipe_api.seleciona_marca(marca=marca)
@@ -80,7 +85,7 @@ def pega_anos_modelo(marca: str,
     :return: retorna a lista com as marcas
     :rtype: list
     """
-    fipe_api = FipeAPI(is_verbose=True)
+    fipe_api = FipeAPI()
     fipe_api.seleciona_tipo_veiculo(tipo_veiculo=tipo_veiculo)
     fipe_api.seleciona_referencia(mes=mes_referencia, ano=ano_referencia)
     fipe_api.seleciona_marca(marca=marca)
@@ -106,7 +111,7 @@ def consulta_preco_veiculo(marca: str,
     :return: retorna um dicionário com as informações do veículo
     :rtype: dict
     """
-    fipe_api = FipeAPI(is_verbose=True)
+    fipe_api = FipeAPI()
     fipe_api.seleciona_tipo_veiculo(tipo_veiculo=tipo_veiculo)
     fipe_api.seleciona_referencia(mes=mes_referencia, ano=ano_referencia)
     fipe_api.seleciona_marca(marca=marca)

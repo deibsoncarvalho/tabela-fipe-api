@@ -110,6 +110,12 @@ class FipeAPI:
         except Exception as error:
             logger.error(f'Error in close connection {error}')
 
+    @property
+    def status_conexao(self) -> int:
+        if not self._req:
+            return 0
+        return self._req.status_code
+
     def _prepara_dados(self) -> None:
         """ Método interno simples para setar os valores iniciais das variáveis na inicialização """
 
@@ -271,7 +277,7 @@ class FipeAPI:
             )
         return codigo_tabela_referencia
 
-    def seleciona_referencia(self, mes: int = None, ano: int = None) -> None:
+    def seleciona_referencia(self, mes: int = None, ano: int = None) -> bool:
         """ Função para definir o mês e ano desejado para a pesquisa """
         if not self._tabela_referencia:
             if not self._atualiza_tabela_referencia():
@@ -282,8 +288,9 @@ class FipeAPI:
                     """
                 )
         self._codigo_referencia_corrente = self._pega_codigo_referencia(mes_referencia=mes, ano_referencia=ano)  # noqa
+        return True
 
-    def seleciona_tipo_veiculo(self, tipo_veiculo: int) -> None:
+    def seleciona_tipo_veiculo(self, tipo_veiculo: int) -> bool:
         """ Método para definir o típo de veículo a ser pesquisado """
         if tipo_veiculo not in [CARRO, MOTO, CAMINHAO]:
             raise IncorrectValueException(
@@ -292,8 +299,9 @@ class FipeAPI:
                 """
             )
         self._codigo_tipo_veiculo_corrente = tipo_veiculo  # noqa
+        return True
 
-    def seleciona_marca(self, marca: str) -> None:
+    def seleciona_marca(self, marca: str) -> bool:
         """ Método para definir a marca de veículo a ser pesquisada """
         marca = marca.strip().lower()
         marcas = self.pega_marcas()
@@ -301,14 +309,14 @@ class FipeAPI:
             name = m['marca'].lower()
             if name == marca or marca in name:
                 self._codigo_marca_corrente = int(m['codigo']) # noqa
-                return
+                return True
         raise IncorrectValueException(
             f"""
               A marca de carro informada "{marca}" não foi localizada.
             """
         )
 
-    def seleciona_modelo(self, modelo: str) -> None:
+    def seleciona_modelo(self, modelo: str) -> bool:
         """ Método para definir o modelo de veículo a ser pesquisado """
         modelo = modelo.strip().lower()
         modelos = self.pega_modelos()
@@ -316,7 +324,7 @@ class FipeAPI:
             name = m['modelo'].lower()
             if name == modelo or modelo in name:
                 self._codigo_modelo_corrente = int(m['codigo']) # noqa
-                return
+                return True
         raise IncorrectValueException(
             f"""
               O modelo de veículo informado "{modelo}" não foi localizado.
@@ -353,7 +361,7 @@ class FipeAPI:
             raise IncorrectValueException(
                 f"""
                  O tipo de veículo não foi definido. Informe qual o tipo de veículo que deseja informações. 
-                 Tipos possíveis: {self._tipos_veiculo.keys()}
+                 Tipos possíveis: "CARRO", "MOTO", "CAMINHAO"
                 """)
 
         return True
@@ -703,9 +711,9 @@ class FipeAPI:
                          'Álcool': ALCOOL,
                          'Diesel': DIESEL}
         for item in conteudo:
-            _s = item['Label'].split(" ")
+            _s = item['Value'].split("-")
             _reformatado.append({'ano': int(_s[0]),
-                                 'combustivel': _combustiveis[_s[1]],
+                                 'combustivel': int(_s[1]),
                                  'descricao': item['Label'],
                                  'codigo': item['Value']})
         self._salva_cache(origem='anos-modelo', chave=chave, valor=_reformatado)
@@ -813,6 +821,7 @@ class FipeAPI:
                 'ano_referencia': referencia[2],
                 'mes_referencia': referencia[0],
                 'data_consulta': kwargs.get('DataConsulta'),
+                'valor': kwargs.get('valor'),
             })
         except Exception as error:
             logger.error(
