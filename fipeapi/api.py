@@ -30,8 +30,9 @@ from .exceptions import (
     ValueNotFoundException,
     RequestFailedException)
 
-from typing import Tuple, List, Any, Dict
+from typing import List, Any, Dict
 from .utils import meses_do_ano
+
 
 log_format = logging.Formatter('[%(asctime)s] [%(levelname)s] - %(message)s')
 logger = logging.getLogger(__name__)
@@ -484,7 +485,7 @@ class FipeAPI:
                     data:{kwargs.get('data')}
                     headers: {consulta.headers}
                     """)
-            return None
+            return
 
     def _atualiza_tabela_referencia(self) -> bool:
         """ Função para atualizar o código da tabela de referência para efetuar buscas no web site oficial da FIPE. Ela
@@ -640,9 +641,7 @@ class FipeAPI:
         return _reformatado
 
     def pega_anos_modelo(self) -> List:
-        """
-        Função interna para pegar todos os Ano/modelos de uma determinado modelo e marca de veículos
-
+        """ Função interna para pegar todos os Ano/modelos de uma determinado modelo e marca de veículos
         Returns
         --------
         List:
@@ -821,7 +820,7 @@ class FipeAPI:
                 'ano_referencia': referencia[2],
                 'mes_referencia': referencia[0],
                 'data_consulta': kwargs.get('DataConsulta'),
-                'valor': kwargs.get('valor'),
+                'valor': kwargs.get('Valor'),
             })
         except Exception as error:
             logger.error(

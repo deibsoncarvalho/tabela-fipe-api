@@ -2,9 +2,7 @@
 init:
 	pip install -e .[socks]
 	pip install -r requirements-dev.txt
-test:
-	# This runs all of the tests, on both Python 2 and Python 3.
-	detox
+
 ci:
 	pytest tests --junitxml=report.xml
 

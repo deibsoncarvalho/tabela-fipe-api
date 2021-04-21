@@ -74,7 +74,7 @@ setup(
     package_data={'': ['LICENSE', 'NOTICE']},
     package_dir={'fipeapi': 'fipeapi'},
     include_package_data=True,
-    python_requires="!=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*",
+    python_requires="!=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*",
     install_requires=requires,
     license=about['__license__'],
     zip_safe=False,
@@ -85,7 +85,6 @@ setup(
         'License :: OSI Approved :: Apache Software License',
         'Programming Language :: Python',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
@@ -95,7 +94,8 @@ setup(
     cmdclass={'test': PyTest},
     tests_require=test_requirements,
     project_urls={
-        'Documentation': '',
-        'Source': '',
+        'Documentation': 'https://github.com/deibsoncarvalho/tabela-fipe-api#readme',
+        'Source': 'https://github.com/deibsoncarvalho/tabela-fipe-api',
+        'Bug Tracker': 'https://github.com/deibsoncarvalho/tabela-fipe-api/issues',
     },
 )
